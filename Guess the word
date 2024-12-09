@@ -1,0 +1,48 @@
+secret_word = "wes"
+
+def get_guess():
+    """Prompt the user to enter a valid guess and return it."""
+    while True:
+        guess = input("What is your guess: ")
+        if len(guess) != 1:
+            print("Your guess must have exactly one character!")
+        elif not guess.islower():
+            print("Your guess must be a lowercase letter!")
+        else:
+            return guess
+
+def display_progress(secret_word, correct_guesses):
+    """Display the current progress of the word with guessed letters and dashes."""
+    progress = ''.join([letter if letter in correct_guesses else '-' for letter in secret_word])
+    print(progress)
+    return progress
+
+def main():
+    """Run the guessing game."""
+    print("Welcome to the Guessing Game!")
+    print("Try to guess the secret word!")
+    guesses_left = 10
+    correct_guesses = set()
+    secret_word_set = set(secret_word)
+    while guesses_left > 0 and correct_guesses != secret_word_set:
+        print(f"{guesses_left} incorrect guesses left.")
+        display_progress(secret_word, correct_guesses)
+        
+        guess = get_guess()
+        
+        if guess in secret_word:
+            if guess not in correct_guesses:
+                print("That letter is in the word!")
+                correct_guesses.add(guess)
+            else:
+                print("You already guessed that letter!")
+        else:
+            print("That letter is not in the word.")
+            guesses_left -= 1
+
+    if correct_guesses == secret_word_set:
+        print(f"Congrats! You win. The word was: {secret_word}")
+    else:
+        print(f"You lose. The word was: {secret_word}")
+
+main()
